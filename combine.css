@@ -1,0 +1,384 @@
+
+/* Base styles */
+:root {
+    --background: 0 0% 98%;
+    --foreground: 240 10% 3.9%;
+    --editor-bg: 0 0% 100%;
+    --editor-text: 240 10% 3.9%;
+    --editor-toolbar: 0 0% 97%;
+  }
+  
+  /* Glass effect for editor */
+  .editor-glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 0.75rem;
+  }
+  
+  /* Toolbar styling */
+  .toolbar-glass {
+    background: rgba(247, 247, 247, 0.9);
+    backdrop-filter: blur(2px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  
+  /* Animations */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slide-in {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  .editor-box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    min-height: 200px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-size: 16px;
+  }
+  .symbol-palette {
+    display: none; /* Initially hidden */
+    margin-bottom: 20px;
+  }
+  .symbol-group {
+    border: 1px solid #eee;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  .symbol-group h3 {
+    margin-top: 0;
+    color: #555;
+  }
+  .symbol-button {
+    padding: 8px 12px;
+    margin: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+  }
+  .symbol-button:hover {
+    background-color: #ddd;
+  }
+  .toggle-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+  }
+  .toggle-button:hover {
+    background-color: #0056b3;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main Container */
+.container {
+    max-width: 700px;
+    background: white;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+.title {
+    text-align: center;
+    color: #4a47a3;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Form Elements */
+form label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+textarea {
+    height: 100px;
+}
+
+/* Buttons */
+.btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin-top: 10px;
+}
+
+.submit-btn {
+    width: 100%;
+    background-color: #4a47a3;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+}
+
+/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background: #2c3e50;
+    padding-top: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar a:hover {
+    background: #1abc9c;
+}
+
+/* Main Content Styling */
+.main-content {
+    margin-left: 260px;
+    padding: 20px;
+    transition: margin-left 0.3s;
+}
+
+/* Custom Styling for Quill Editor */
+.editor-box {
+    width: 100%;
+    min-height: 200px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 10px;
+}
+
+/* Quill Editor Content Area */
+.ql-container {
+    border: none !important;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+/* Quill Toolbar Styling */
+.ql-toolbar {
+    border-bottom: 1px solid #ccc !important;
+    background-color: #f8f8f8;
+    border-radius: 8px 8px 0 0;
+    padding: 5px;
+}
+
+/* Customize Placeholder Text */
+.ql-editor::before {
+    color: #999;
+    font-style: italic;
+    font-size: 14px;
+}
+
+/* Focus Effect */
+.editor-box:focus-within {
+    border-color: #4A90E2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+#output-container {
+    max-width: 768px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.video-container {
+    max-width: 768px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#uploaded-video {
+    width: 100%;
+    max-height: 400px;
+    border-radius: 10px;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main Container */
+.container {
+    max-width: 700px;
+    background: white;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+.title {
+    text-align: center;
+    color: #4a47a3;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Form Elements */
+form label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+textarea {
+    height: 100px;
+}
+
+/* Formula Input */
+.mathquill-editor {
+    min-height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: white;
+    cursor: text;
+}
+
+/* Buttons */
+.btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin-top: 10px;
+}
+
+.submit-btn {
+    width: 100%;
+    background-color: #4a47a3;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+}

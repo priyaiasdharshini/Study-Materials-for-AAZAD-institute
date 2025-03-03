@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload and Publish Study Material</title>
+    <link rel="stylesheet" href="combine.css">
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* Add all your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            background: white;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            text-align: center;
+            color: #4a47a3;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        .content-section {
+            margin-bottom: 20px;
+        }
+        .content-section h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .content-section p {
+            color: #555;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin-top: 10px;
+        }
+        .submit-btn {
+            width: 100%;
+            background-color: #4a47a3;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="text-center">Aazad Academy</h2>
+        <a href="#">Dashboard</a>
+        <a href="#">Courses</a>
+        <a href="#">Test</a>
+        <a href="#">Students</a>
+        <a href="index.html">Content Management</a>
+        <a href="#" id="upload-topic-content">Upload Topic Content</a>
+        <a href="#">Reports</a>
+        <a href="#">Payments</a>
+        <a href="#">Settings</a>
+    </div>
+    <div class="container">
+        <!-- Form Section -->
+        <div id="form-section">
+            <h2 class="title">Upload Study Material</h2>
+            <form id="content-form">
+                <label>Select Course</label>
+                <select id="courses" name="courses" required onchange="updateSubjects()">
+                    <option value="" disabled selected>Select a course</option>
+                    <option value="NEET">NEET</option>
+                    <option value="JEE">JEE</option>
+                    <option value="CLAT">CLAT</option>
+                    <option value="CUET">CUET</option>
+                    <option value="Foundation">Foundation Courses</option>
+                    <option value="Olympiad">Olympiad</option>
+                    <option value="Classes">Classes</option>
+                </select>
+
+                <label>Select Subject</label>
+                <select id="subject" name="subject" required onchange="updateUnits()">
+                    <option value="" disabled selected>Select a subject</option>
+                </select>
+
+                <label>Select or Enter Unit</label>
+                <input type="text" id="unitInput" placeholder="Enter a new unit (or select below)">
+                <select id="unit" name="unit" onchange="updateTopics()">
+                    <option value="" disabled selected>Select a unit</option>
+                </select>
+
+                <label>Select or Enter Topic</label>
+                <input type="text" id="topicInput" placeholder="Enter a new topic (or select below)">
+                <select id="topics" name="topics">
+                    <option value="" disabled selected>Select a topic</option>
+                </select>
+
+                <label>Heading</label>
+                <input type="text" name="heading" required placeholder="Enter Heading">
+
+                <label>Description</label>
+                <textarea id="editor"></textarea>
+
+                <label>Tags (comma-separated)</label>
+                <input type="text" name="tags" placeholder="e.g., physics, NEET, mechanics">
+
+                <label>Upload Image</label>
+                <input type="file" name="image" accept="image/*">
+
+                <label>Upload Video</label>
+                <input type="file" name="video" accept="video/*">
+
+                <label>Upload PDF</label>
+                <input type="file" name="pdf" accept=".pdf">
+
+                <label>Add Table</label>
+                <button type="button" onclick="addTable()" class="btn">+ Add Table</button>
+                <div id="tables-container"></div>
+
+                <label>Reference Links</label>
+                <div id="links-container">
+                    <input type="url" placeholder="Enter link">
+                </div>
+                <button type="button" onclick="addLinkField()" class="btn">+ Add More Links</button>
+
+                <label>Additional Notes</label>
+                <textarea name="comments" placeholder="Enter additional notes or tips..."></textarea>
+
+                <label>Generate QR Code:</label>
+                <input type="text" id="qrCodeInput" placeholder="Enter URL to generate QR Code">
+                <button type="button" id="generateQr">Generate QR Code</button>
+                <div id="qrCodeDisplay"></div>
+
+                <label>Year of Question Paper upload</label>
+                <input type="file" name="pdf" accept=".pdf">
+
+                <label>Ask & Comment Box</label>
+                <textarea name="notes" placeholder="Ask a question or comment..."></textarea>
+
+                <label>Language Support</label>
+                <select name="language">
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Tamil">Tamil</option>
+                    <option value="Telugu">Telugu</option>
+                </select>
+
+                <button type="submit" class="submit-btn">Publish Content</button>
+            </form>
+        </div>
+
+        <!-- Published Content Section -->
+        <div id="published-section" class="hidden">
+            <h2 class="title">Published Content</h2>
+            <div id="published-content"></div>
+            <button onclick="goBackToForm()" class="btn">Go Back to Form</button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize CKEditor
+        CKEDITOR.replace('editor');
+
+        // Handle form submission
+        document.getElementById('content-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Capture form data
+            const formData = {
+                course: document.getElementById('courses').value,
+                subject: document.getElementById('subject').value,
+                unit: document.getElementById('unit').value,
+                topic: document.getElementById('topics').value,
+                heading: document.querySelector('input[name="heading"]').value,
+                description: CKEDITOR.instances.editor.getData(), // Get CKEditor content
+                tags: document.querySelector('input[name="tags"]').value,
+                image: document.querySelector('input[name="image"]').files[0],
+                video: document.querySelector('input[name="video"]').files[0],
+                pdf: document.querySelector('input[name="pdf"]').files[0],
+                tables: document.getElementById('tables-container').innerHTML,
+                links: Array.from(document.querySelectorAll('#links-container input')).map(input => input.value),
+                notes: document.querySelector('textarea[name="notes"]').value,
+                language: document.querySelector('select[name="language"]').value,
+                qrCode: document.getElementById('qrCodeDisplay').innerHTML
+            };
+
+            // Display the published content
+            displayPublishedContent(formData);
+
+            // Hide the form and show the published content section
+            document.getElementById('form-section').classList.add('hidden');
+            document.getElementById('published-section').classList.remove('hidden');
+        });
+
+        // Function to display published content
+        function displayPublishedContent(formData) {
+            const contentContainer = document.getElementById('published-content');
+            contentContainer.innerHTML = `
+                <div class="content-section">
+                    <h3>Course:</h3>
+                    <p>${formData.course}</p>
+                </div>
+                <div class="content-section">
+                    <h3>Subject:</h3>
+                    <p>${formData.subject}</p>
+                </div>
+                <div class="content-section">
+                    <h3>Unit:</h3>
+                    <p>${formData.unit}</p>
+                </div>
+                <div class="content-section">
+                    <h3>Topic:</h3>
+                    <p>${formData.topic}</p>
+                </div>
+                <div class="content-section">
+                    <h3>Heading:</h3>
+                    <p>${formData.heading}</p>
+                </div>
+                <div class="content-section">
+                    <h3>Description:</h3>
+                    <div>${formData.description}</div>
+                </div>
+                <div class="content-section">
+                    <h3>Tags:</h3>
+                    <p>${formData.tags}</p>
+                </div>
+                <div class="content-section">
+                    <h3>Tables:</h3>
+                    <div>${formData.tables}</div>
+                </div>
+                <div class="content-section">
+                    <h3>Links:</h3>
+                    <ul>
+                        ${formData.links.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
+                    </ul>
+                </div>
+                <div class="content-section">
+                    <h3>Additional Notes:</h3>
+                    <p>${formData.notes}</p>
+                </div>
+                <div class="content-section">
+                    <h3>Language:</h3>
+                    <p>${formData.language}</p>
+                </div>
+                <div class="content-section">
+                    <h3>QR Code:</h3>
+                    <div>${formData.qrCode}</div>
+                </div>
+            `;
+        }
+
+        // Function to go back to the form
+        function goBackToForm() {
+            document.getElementById('form-section').classList.remove('hidden');
+            document.getElementById('published-section').classList.add('hidden');
+        }
+
+        // Function to add a table (placeholder)
+        function addTable() {
+            const tablesContainer = document.getElementById('tables-container');
+            tablesContainer.innerHTML += `<div class="table">Table Placeholder</div>`;
+        }
+
+        // Function to add a link field
+        function addLinkField() {
+            const linksContainer = document.getElementById('links-container');
+            linksContainer.innerHTML += `<input type="url" placeholder="Enter link">`;
+        }
+
+        // QR Code Generator
+        document.getElementById('generateQr').addEventListener('click', function() {
+            const qrCodeInput = document.getElementById('qrCodeInput').value;
+            if (qrCodeInput) {
+                const qrCodeDisplay = document.getElementById('qrCodeDisplay');
+                qrCodeDisplay.innerHTML = '';
+                new QRCode(qrCodeDisplay, qrCodeInput);
+            }
+        });
+    </script>
+     <script src="index.js"></script>
+</body>
+</html>

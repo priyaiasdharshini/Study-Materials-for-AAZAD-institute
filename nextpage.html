@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Published Content</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            background: white;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            text-align: center;
+            color: #4a47a3;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .data-item {
+            margin-bottom: 15px;
+        }
+        .data-item label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .data-item p {
+            margin: 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="title">Published Content</h2>
+        <div id="published-content">
+            <!-- Data will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Retrieve data from localStorage
+        const formData = JSON.parse(localStorage.getItem('formData'));
+
+        // Display data on the page
+        const contentDiv = document.getElementById('published-content');
+        if (formData) {
+            contentDiv.innerHTML = `
+                <div class="data-item">
+                    <label>Course:</label>
+                    <p>${formData.course}</p>
+                </div>
+                <div class="data-item">
+                    <label>Subject:</label>
+                    <p>${formData.subject}</p>
+                </div>
+                <div class="data-item">
+                    <label>Unit:</label>
+                    <p>${formData.unit}</p>
+                </div>
+                <div class="data-item">
+                    <label>Topic:</label>
+                    <p>${formData.topic}</p>
+                </div>
+                <div class="data-item">
+                    <label>Heading:</label>
+                    <p>${formData.heading}</p>
+                </div>
+                <div class="data-item">
+                    <label>Description:</label>
+                    <div>${formData.description}</div>
+                </div>
+                <div class="data-item">
+                    <label>Tags:</label>
+                    <p>${formData.tags}</p>
+                </div>
+                <div class="data-item">
+                    <label>Image:</label>
+                    <p>${formData.image || 'No image uploaded'}</p>
+                </div>
+                <div class="data-item">
+                    <label>Video:</label>
+                    <p>${formData.video || 'No video uploaded'}</p>
+                </div>
+                <div class="data-item">
+                    <label>PDF:</label>
+                    <p>${formData.pdf || 'No PDF uploaded'}</p>
+                </div>
+                <div class="data-item">
+                    <label>Additional Notes:</label>
+                    <p>${formData.comments}</p>
+                </div>
+                <div class="data-item">
+                    <label>Ask & Comment:</label>
+                    <p>${formData.notes}</p>
+                </div>
+                <div class="data-item">
+                    <label>Language:</label>
+                    <p>${formData.language}</p>
+                </div>
+            `;
+        } else {
+            contentDiv.innerHTML = '<p></p>';
+        }
+    </script>
+</body>
+</html>
